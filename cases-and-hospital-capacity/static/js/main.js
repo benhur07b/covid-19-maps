@@ -129,7 +129,7 @@ map.on('load', () => {
        'filter': ['has', 'point_count'],
        'layout': {
            // 'text-field': ['concat', "COV: ", ['get', 'cluster_cases'], "\nCAP: ", ['get', 'cluster_capacity']],
-           'text-field': ['concat', "COV:\n", ['get', 'cluster_cases']],
+           'text-field': ['concat', "CASES: ", ['get', 'cluster_cases']],
            // 'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
            'text-size': 12
        }
