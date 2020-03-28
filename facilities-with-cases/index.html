@@ -4,7 +4,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
-    <title>#COVID19PH Cases and Hospital Capacity</title>
+    <title>Facilities with Confirmed #COVID19PH Cases</title>
 
     <meta property='og:description' content='Some #COVID19PH Maps. Badly need good data. Hit me up if you have data that you want mapped or visualized.'>
     <meta property='og:image' content='data/covid19ph.png'/>
@@ -47,18 +47,23 @@
             <!-- <p></p> -->
         </div>
         <div class='heading px-2 pt-1'><h6>Legend</h6></div>
-            <p class='font-weight-normal px-2 pt-2 small'>FAC - Number of Facilities<br>CAS - Number of Cases</span><br>
+            <p class='font-weight-normal px-2 pt-2 small'>FAC - Number of Facilities<br>CAS - Number of Cases<br>
             <span class='font-weight-normal text-secondary'><span id='forVal'></span> Cases For Validation (no location yet)</span>
+
+        <div class='heading px-2 pt-1'><h6>Filter <span class='small'>(individual facilities on map, not the cluster)</span></h6></div>
+        <div class='small p-2'>
+        <span class='pr-2'>Cases</span> <input class='mx-1 my-1' id='comp-text' type='text' placeholder='<='><input class='mx-1 my-1' id='num-text' type='text' placeholder='50'>
+        <input class='mx-1 my-1' id='filter-btn' class='button' type='submit' value='Filter'>
+        <input class='mx-1 my-1' id='clear-btn' class='button quiet' type='submit' value='Clear'>
+        </div>
         <div class='heading px-2 pt-1'><h6>Facilities</h6></div>
         <div class='listings small' id='listings'></div>
     </div>
     <div id='map' class='map'></div>
-    <!-- <div id='asof' class='small text-right'></div> -->
-    <!-- <div id='key'></div> -->
     <script src='static/js/main.js'></script>
     <script>
     $.getJSON('https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/conf_fac_tracking/FeatureServer/0/?f=json', function(data) {
-        document.getElementById('asof').innerHTML = `- Data as of ${new Date(data.editingInfo.lastEditDate)}`;
+        document.getElementById('asof').innerHTML = `Data as of ${new Date(data.editingInfo.lastEditDate)}`;
     });
 
     $.getJSON('https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/conf_fac_tracking/FeatureServer/0/query?where=facility=%27For%20validation%27&outFields=*&f=pgeojson', function(data) {
