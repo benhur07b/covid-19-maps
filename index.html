@@ -7,10 +7,10 @@
     <title>#COVID19PH Maps</title>
 
     <meta property="og:description" content="Some #COVID19PH Maps. Badly need good data. Hit me up if you have data that you want mapped or visualized.">
-    <meta property="og:image" content="cases-and-hospital-capacity/data/covid19ph.png"/>
+    <meta property="og:image" content="facilities-with-cases/data/covid19ph.png"/>
 
     <meta name="twitter:description" content="Some #COVID19PH Maps. Badly need good data. Hit me up if you have data that you want mapped or visualized.">
-    <meta name="twitter:image" content="cases-and-hospital-capacity/data/covid19ph.png"/>
+    <meta name="twitter:image" content="facilities-with-cases/data/covid19ph.png"/>
 
 
     <link rel='shortcut icon' href='https://bnhr.xyz/assets/img/logos/BNHR-avatar-rd-2.png'>
@@ -19,7 +19,8 @@
     <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous'>
 
     <!-- jQuery -->
-    <script src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n' crossorigin='anonymous'></script>
+    <!-- <script src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n' crossorigin='anonymous'></script> -->
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js' integrity='sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=' crossorigin='anonymous'></script>
 
     <!-- Popper.js -->
     <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js' integrity='sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo' crossorigin='anonymous'></script>
@@ -34,12 +35,13 @@
         <h1>#COVID19PH Maps</h1>
         <div class='accordion' id='mapsAccordion'>
             <div class='card'>
-                <div class='card-header d-flex justify-content-between align-items-center' id='cases_and_hospital_capacity'>
-                    <div><a class='btn btn-success' href='cases-and-hospital-capacity/' role='button'>#COVID19PH Cases and Hospital Capacity</a></div><div><button class='btn btn-link' type='button' data-toggle='collapse' data-target='#collapseOne' aria-expanded='true' aria-controls='collapseOne'><span>READ MORE</span></button></div>
-                    </div>
-                    <div id='collapseOne' class='collapse' aria-labelledby='cases_and_hospital_capacity' data-parent='#mapsAccordion'>
+                <div class='card-header d-flex justify-content-between align-items-center' id='facilities_with_cases'>
+                    <div><a class='btn btn-success text-left' href='facilities-with-cases/' role='button'>Facilities with Confirmed #COVID19PH Cases</a></div><div><button class='btn btn-link' type='button' data-toggle='collapse' data-target='#collapseOne' aria-expanded='true' aria-controls='collapseOne'><span>READ MORE</span></button></div>
+                </div>
+                <div id='collapseOne' class='collapse' aria-labelledby='facilities_with_cases' data-parent='#mapsAccordion'>
                     <div class='card-body'>
-                        <p>Capacity and #COVID19PH Cases in Hospitals</p>
+                        <p>Map of facilities with confirmed #COVID19PH cases.
+                        <br>Gets data from <a href='https://ncovtracker.doh.gov.ph'>ncovtracker.doh.gov.ph</a> and is updated simultaneously with the site.</p>
                     </div>
                 </div>
             </div>
