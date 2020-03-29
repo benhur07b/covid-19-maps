@@ -1,10 +1,5 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYm5ociIsImEiOiJjazg2MXpuaTUwZDkzM2VycTJ3Nzd1aWJhIn0.m5u8w_MFie9bNVm_sIS4nw'
 
-// var facilities = $.ajax({
-//     url: 'https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/conf_fac_tracking/FeatureServer/0/query?where=facility%3C%3E%27For%20validation%27&outFields=*&f=pgeojson',
-//     dataType: 'json'
-// })
-
 // $(document).ready(function() {
 $.getJSON('https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/conf_fac_tracking/FeatureServer/0/query?where=facility%3C%3E%27For%20validation%27&outFields=*&f=pgeojson', function(facilities) {
     // console.log(facilities)
