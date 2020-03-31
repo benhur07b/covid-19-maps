@@ -6,10 +6,10 @@
 
     <title>Facilities with Confirmed #COVID19PH Cases</title>
 
-    <meta property='og:description' content='Some #COVID19PH Maps. Badly need good data. Hit me up if you have data that you want mapped or visualized.'>
+    <meta property='og:description' content='Facilities with confirmed #COVID19PH cases. Gets data directly from the DOH ncovtracker.'>
     <meta property='og:image' content='static/img/main.webp'/>
 
-    <meta name='twitter:description' content='Some #COVID19PH Maps. Badly need good data. Hit me up if you have data that you want mapped or visualized.'>
+    <meta name='twitter:description' content='Facilities with confirmed #COVID19PH cases. Gets data directly from the DOH ncovtracker.'>
     <meta name='twitter:image' content='static/img/main.webp'/>
 
     <link rel='shortcut icon' href='https://bnhr.xyz/assets/img/logos/BNHR-avatar-rd-2.png'>
@@ -27,51 +27,75 @@
     <!-- Bootstrap JS -->
     <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js' integrity='sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6' crossorigin='anonymous'></script>
 
-    <!-- LESS -->
-    <script src='//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js' ></script>
-
     <!-- Mapbox -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css' rel='stylesheet' />
-    <!-- <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' /> -->
+    <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
+
+    <!-- LESS -->
+    <!-- <link rel='stylesheet' type='text/less' href='static/css/main.less' />
+    <script src='//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js' ></script> -->
 
 
     <!-- D3 -->
     <script src='https://d3js.org/d3.v4.min.js'></script>
 
     <link rel='stylesheet' href='static/css/main.css'>
+
 </head>
 
 <body>
-    <div class='sidebar'>
-        <div class='heading px-2 pt-2'>
-            <h6>Facilities with Confirmed Cases <i><span id='asof' class='font-weight-light' style='font-size: 11px'></span></i></h6>
-            <!-- <p></p> -->
+    <div class='col12 contain fill-light clip'>
+        <div id='map' class='col12 quiet'></div>
+        <div>
+            <a href='#info' id='show-sidebar-btn' class='icon help big pin-left pad0'></a>
         </div>
-        <div class='heading px-2 pt-1'><h6>Legend</h6></div>
-            <p class='font-weight-normal px-2 pt-2 small'>FAC - Number of Facilities<br>CAS - Number of Cases<br>
-            <span class='font-weight-normal text-secondary'><span id='forVal'></span> Cases For Validation (no location yet)</span>
-
-        <div class='heading px-2 pt-1'><h6>Filter <span class='small'>(individual facilities on map, not the cluster)</span></h6></div>
-        <div class='small p-2'>
-        <span class='pr-2'>Cases</span> <input class='mx-1 my-1' id='comp-text' type='text' placeholder='<='><input class='mx-1 my-1' id='num-text' type='text' placeholder='50'>
-        <input class='mx-1 my-1' id='filter-btn' class='button' type='submit' value='Filter'>
-        <input class='mx-1 my-1' id='clear-btn' class='button quiet' type='submit' value='Clear'>
+        <div id='info' class='col6 fill-lighten2 pin-left offcanvas-left animate'>
+            <a href='#' id='close-sidebar-btn' class='icon help big pin-left pad0'></a>
+            <div id='x1' class='mt-4 pt-4'>
+                <div class='text-light bg-success p-2'>
+                    <strong>Facilities with Confirmed #COVID19PH Cases</strong>
+                    - <span id='asof' class='font-weight-light small'></span>
+                </div>
+                <div>
+                    <p class='font-weight-normal my-auto p-2'>FAC - Number of Facilities<br>CAS - Number of Cases<br>
+                    <span class='font-weight-bold text-dark'><span id='forVal'></span> Cases For Validation (no facility location yet)</span></p>
+                </div>
+            </div>
+            <div id='x2' class='mt-4'>
+                <p class='text-light bg-success p-2 pb-0 mb-0'>Filter (Individual Facilities, not the Clusters)</p>
+                <br><span class='px-2'>SHOW FACILITIES WITH CASES</span><br>
+                <div class='p-2'>
+                    <input class='col4 mt-1' id='comp-text' type='text' placeholder='<='>
+                    <input class='col4 mt-1' id='num-text' type='text' placeholder='50'>
+                    <input class='col4 mt-1' id='filter-btn' class='button' type='submit' value='Filter'>
+                    <!-- <input class='col6' id='clear-btn' class='button' type='submit' value='Clear'> -->
+                </div>
+            </div>
+            <div id='x3' class='mt-4'>
+                <p class='text-light bg-success p-2'><strong>List of Facilities</strong></p>
+                <div class='listings px-2' id='listings'></div>
+            </div>
         </div>
-        <div class='heading px-2 pt-1'><h6>Facilities</h6></div>
-        <div class='listings small' id='listings'></div>
+        </div>
     </div>
-    <div id='map' class='map'></div>
-    <script src='static/js/main.js'></script>
+        <script src='static/js/main.js'></script>
     <script>
+    $('#show-sidebar-btn').click(function(){
+        $('#show-sidebar-btn').toggle();
+    });
+
+    $('#close-sidebar-btn').click(function(){
+        $('#show-sidebar-btn').show();
+    });
+
     $.getJSON('https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/conf_fac_tracking/FeatureServer/0/?f=json', function(data) {
-        document.getElementById('asof').innerHTML = `Data as of ${new Date(data.editingInfo.lastEditDate)}`;
+        document.getElementById('asof').innerHTML = `Data as of ${new Date(data.editingInfo.lastEditDate).toLocaleString()} from DOH NCOV Tracker`;
     });
 
     $.getJSON('https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/conf_fac_tracking/FeatureServer/0/query?where=facility=%27For%20validation%27&outFields=*&f=pgeojson', function(data) {
         document.getElementById('forVal').innerHTML = `${data.features[0].properties.count_}`
     });
-
     </script>
 </body>
 </html>

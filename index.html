@@ -6,11 +6,11 @@
 
     <title>#COVID19PH Maps</title>
 
-    <meta property="og:description" content="Some #COVID19PH Maps. Badly need good data. Hit me up if you have data that you want mapped or visualized.">
-    <meta property="og:image" content="facilities-with-cases/data/covid19ph.png"/>
+    <meta property='og:description' content='Some #COVID19PH Maps. Badly need good data. Hit me up if you have data that you want mapped or visualized.'>
+    <meta property='og:image' content='facilities-with-cases/data/covid19ph.png'/>
 
-    <meta name="twitter:description" content="Some #COVID19PH Maps. Badly need good data. Hit me up if you have data that you want mapped or visualized.">
-    <meta name="twitter:image" content="facilities-with-cases/data/covid19ph.png"/>
+    <meta name='twitter:description' content='Some #COVID19PH Maps. Badly need good data. Hit me up if you have data that you want mapped or visualized.'>
+    <meta name='twitter:image' content='facilities-with-cases/data/covid19ph.png'/>
 
 
     <link rel='shortcut icon' href='https://bnhr.xyz/assets/img/logos/BNHR-avatar-rd-2.png'>
@@ -35,25 +35,34 @@
         <h1>#COVID19PH Maps</h1>
         <div class='accordion' id='mapsAccordion'>
             <div class='card'>
-                <div class='card-header d-flex justify-content-between align-items-center' id='facilities_with_cases'>
-                    <div><a class='btn btn-success text-left' href='facilities-with-cases/' role='button'>Facilities with Confirmed #COVID19PH Cases</a></div><div><button class='btn btn-link' type='button' data-toggle='collapse' data-target='#collapseOne' aria-expanded='true' aria-controls='collapseOne'><span>READ MORE</span></button></div>
+                <div class='card-header d-flex justify-content-between align-items-center' id='covid19ph'>
+                    <div><a class='btn btn-success text-left' href='covid19ph/' role='button'>#COVID19PH Cases per Administrative Boundary</a></div><div><button class='btn btn-link' type='button' data-toggle='collapse' data-target='#collapseOne' aria-expanded='true' aria-controls='collapseOne'><span>READ MORE</span></button></div>
                 </div>
-                <div id='collapseOne' class='collapse' aria-labelledby='facilities_with_cases' data-parent='#mapsAccordion'>
+                <div id='collapseOne' class='collapse' aria-labelledby='covid19ph' data-parent='#mapsAccordion'>
+                    <div class='card-body'>
+                        <p>Map of confirmed #COVID19PH cases per Province, Municipality/City, or Barangay.
+                        <br>Show the number of confirmed #COVID19PH cases per Province, Municipality/City, or Barangay</p>
+                    </div>
+                </div>
+                <div class='card-header d-flex justify-content-between align-items-center' id='facilities_with_cases'>
+                    <div><a class='btn btn-success text-left' href='facilities-with-cases/' role='button'>Facilities with Confirmed #COVID19PH Cases</a></div><div><button class='btn btn-link' type='button' data-toggle='collapse' data-target='#collapseTwo' aria-expanded='true' aria-controls='collapseTwo'><span>READ MORE</span></button></div>
+                </div>
+                <div id='collapseTwo' class='collapse' aria-labelledby='facilities_with_cases' data-parent='#mapsAccordion'>
                     <div class='card-body'>
                         <p>Map of facilities with confirmed #COVID19PH cases.
                         <br>Gets data from <a href='https://ncovtracker.doh.gov.ph'>ncovtracker.doh.gov.ph</a> and is updated simultaneously with the site.</p>
                     </div>
                 </div>
-                <!-- <div class='card-header d-flex justify-content-between align-items-center' id='covid_cases'>
-                    <div><a class='btn btn-success text-left' href='covid-cases/' role='button'>Confirmed #COVID19PH Cases</a></div><div><button class='btn btn-link' type='button' data-toggle='collapse' data-target='#collapseTwo' aria-expanded='true' aria-controls='collapseTwo'><span>READ MORE</span></button></div>
+                <div class='card-header d-flex justify-content-between align-items-center' id='hospital_locator'>
+                    <div><a class='btn btn-success text-left' href='hospital-locator/' role='button'>Hospital Locator</a></div><div><button class='btn btn-link' type='button' data-toggle='collapse' data-target='#collapseThree' aria-expanded='true' aria-controls='collapseThree'><span>READ MORE</span></button></div>
                 </div>
-                <div id='collapseTwo' class='collapse' aria-labelledby='covid_cases' data-parent='#mapsAccordion'>
+                <div id='collapseThree' class='collapse' aria-labelledby='hospital_locator' data-parent='#mapsAccordion'>
                     <div class='card-body'>
-                        <p>Map of confirmed #COVID19PH cases.
+                        <p>Hospital Locator
                         <br>Gets data from <a href='https://ncovtracker.doh.gov.ph'>ncovtracker.doh.gov.ph</a> and is updated simultaneously with the site.</p>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </body>
