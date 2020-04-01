@@ -75,7 +75,8 @@
                 </div>
                 <div>
                     <h3 class='font-weight-normal my-auto p-2'>FAC - Number of Facilities<br>CAS - Number of Cases</h3>
-                    <h2 class='font-weight-bold text-dark px-2'><span id='forVal'></span> Cases For Validation (no facility location yet)</span></h2>
+                    <span class='font-weight-light text-dark px-2'>Cases For Validation (no facility location yet)</span><br>
+                    <h2 class='font-weight-bold text-dark px-2'><span id='forVal'></span></span> / <span id='totalCount' class='font-weight-bold'></span></h2>
                 </div>
             </div>
             <div id='x2' class='mt-2 mb-4'>
@@ -120,6 +121,10 @@
 
     $.getJSON('https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/conf_fac_tracking/FeatureServer/0/query?where=facility=%27For%20validation%27&outFields=*&f=pgeojson', function(data) {
         document.getElementById('forVal').innerHTML = `${data.features[0].properties.count_}`
+    });
+
+    $.getJSON('https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/PH_masterlist/FeatureServer/0/query?where=FID+IS+NOT+NULL&returnCountOnly=true&f=pgeojson', function(data) {
+        document.getElementById('totalCount').innerHTML = `${data.properties.count}`
     });
     </script>
 </body>
