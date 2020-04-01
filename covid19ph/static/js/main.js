@@ -94,6 +94,7 @@ $(document).ready(function() {
             },
             'paint': {
                 'heatmap-opacity': 0.7,
+                'heatmap-radius': 15,
                 'heatmap-weight': [
                     'step',
                     ['get', 'count_'],
