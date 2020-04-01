@@ -2,7 +2,19 @@
     height: 100vh;
 }
 
-#x1 {
+#info {
+    height: 100vh;
+    overflow: auto;
+}
+
+#listings {
+    /* height: 55vh; */
+    overflow: auto;
+}
+
+/* BACKUP */
+
+/* #x1 {
     height: 15vh;
 }
 
@@ -12,14 +24,9 @@
 
 #x3 {
     height: 70vh;
-}
+} */
 
-#listings {
-    height: 55vh;
-    overflow: auto;
-}
-
-@media only screen and (max-width: 720px) {
+/* @media only screen and (max-width: 720px) {
     #x1 {
         height: 22vh;
     }
@@ -76,10 +83,12 @@
     }
 }
 
-input[type=text] {
+#comp-text, #num-text, #filter-btn {
     padding: 5px;
     height: 25px;
-}
+} */
+
+/* END BACKUP */
 
 .listings .item {
     border-bottom: 1px solid #3f3f3f;

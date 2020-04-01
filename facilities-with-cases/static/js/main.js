@@ -14,6 +14,20 @@ $(document).ready(function() {
       .domain(['low', 'moderate', 'high', 'very high', 'critical'])
       .range(num_colors)
 
+    // map.addControl(
+    //     new MapboxGeocoder({
+    //         accessToken: mapboxgl.accessToken,
+    //         mapboxgl: mapboxgl
+    //     })
+    // );
+    //
+    // map.addControl(
+    //     new MapboxDirections({
+    //         accessToken: mapboxgl.accessToken
+    //     }),
+    //     'top-right'
+    // );
+
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
     map.on('load', () => {
@@ -267,6 +281,7 @@ $(document).ready(function() {
     };
 
     var filterBtn = document.getElementById('filter-btn');
+    var resetMapBtn = document.getElementById('resetMap');
     // var clearBtn = document.getElementById('clear-btn');
 
     filterBtn.onclick = function() {
@@ -284,6 +299,13 @@ $(document).ready(function() {
             // map.setFilter('facility_cluster_count', ['has', 'point_count']);
         }
     };
+
+    resetMapBtn.onclick = function() {
+        map.flyTo({
+            center: [121.8733, 13.5221],
+            zoom: 5,
+        });
+    }
 
     // clearBtn.onclick = function() {
     //     document.getElementById('num-text').value = '';

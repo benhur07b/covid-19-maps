@@ -32,6 +32,17 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css' rel='stylesheet' />
     <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
 
+    <!-- GeoCoder -->
+    <!-- <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css' type='text/css' /> -->
+    <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+    <!-- <script src='https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js'></script> -->
+
+    <!-- Directions -->
+    <!-- <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' /> -->
+
     <!-- LESS -->
     <!-- <link rel='stylesheet' type='text/less' href='static/css/main.less' />
     <script src='//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js' ></script> -->
@@ -48,10 +59,12 @@
     <div class='col12 contain fill-light clip'>
         <div id='map' class='col12 quiet'></div>
         <div>
-            <a href='#info' id='show-sidebar-btn' class='icon help big pin-left pad0'></a>
+            <a href='#info' id='show-sidebar-btn' class='icon help big pin-topleft pad0'></a>
+            <!-- <a href='#info' id='show-sidebar-btn' class='pin-topleft m-1 p-0 btn btn-sm btn-info'><span class='icon big help'></span></a> -->
         </div>
         <div id='info' class='col6 fill-lighten2 pin-left offcanvas-left animate'>
-            <a href='#' id='close-sidebar-btn' class='icon help big pin-left pad0'></a>
+            <a href='#' id='close-sidebar-btn' class='icon help big pin-topleft pad0'></a>
+            <button id='resetMap' class='pin-topright my-1 p-0 btn btn-sm btn-info' data-toggle='tooltip' data-placement='top' title='View Map Extent'><span class='icon big globe'></span></button>
             <div id='x1' class='mt-4 pt-4'>
                 <div class='text-light bg-success p-2'>
                     <strong>Facilities with Confirmed #COVID19PH Cases</strong>
@@ -62,18 +75,27 @@
                     <span class='font-weight-bold text-dark'><span id='forVal'></span> Cases For Validation (no facility location yet)</span></p>
                 </div>
             </div>
-            <div id='x2' class='mt-4'>
-                <p class='text-light bg-success p-2 pb-0 mb-0'>Filter (Individual Facilities, not the Clusters)</p>
-                <br><span class='px-2'>SHOW FACILITIES WITH CASES</span><br>
-                <div class='p-2'>
-                    <input class='col4 mt-1' id='comp-text' type='text' placeholder='COMPARE (e.g. <=)'>
-                    <input class='col4 mt-1' id='num-text' type='text' placeholder='NUMBER (e.g. 50)'>
-                    <input class='col4 mt-1' id='filter-btn' class='button' type='submit' value='Filter'>
+            <div id='x2' class='mt-2 mb-4'>
+                <div class='text-light bg-success p-2'>
+                    <strong>Filter (Individual Facilities, not the Clusters)</strong>
+                </div>
+                <!-- <p class='text-light bg-success p-2 pb-0 mb-0'>Filter (Individual Facilities, not the Clusters)</p>
+                <br><span class='px-2'>SHOW FACILITIES WITH CASES</span><br> -->
+                <div class='px-2 mt-2 mb-4'>
+                    <span>SHOW FACILITIES WITH CASES</span><br>
+                    <div class='row px-2'>
+                        <input class='col-4' id='comp-text' type='text' placeholder='(e.g. <=)'>
+                        <input class='col-4' id='num-text' type='text' placeholder='(e.g. 50)'>
+                        <input class='col-4' id='filter-btn' class='button' type='submit' value='Filter'>
+                    </div>
                     <!-- <input class='col6' id='clear-btn' class='button' type='submit' value='Clear'> -->
                 </div>
             </div>
-            <div id='x3' class='mt-4'>
-                <p class='text-light bg-success p-2'><strong>List of Facilities</strong></p>
+            <div id='x3'>
+                <div class='text-light bg-success p-2'>
+                    <strong>List of Facilities</strong>
+                </div>
+                <!-- <p class='text-light bg-success p-2'><strong>List of Facilities</strong></p> -->
                 <div class='listings px-2' id='listings'></div>
             </div>
         </div>
