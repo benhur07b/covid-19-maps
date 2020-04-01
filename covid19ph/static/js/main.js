@@ -274,7 +274,7 @@ $(document).ready(function() {
     var resetMapBtn = document.getElementById('resetMap');
     var pointsBtn = document.getElementById('pointsBtn');
     var heatmapBtn = document.getElementById('heatmapBtn');
-    // var clearBtn = document.getElementById('clear-btn');
+    var clearBtn = document.getElementById('clear-btn');
 
     filterBtn.onclick = function() {
         var num = Number(document.getElementById('num-text').value);
@@ -292,6 +292,17 @@ $(document).ready(function() {
             // map.setFilter('facility_cluster', ['has', 'point_count']);
             // map.setFilter('facility_cluster_count', ['has', 'point_count']);
         }
+    };
+
+    clearBtn.onclick = function() {
+        document.getElementById('num-text').value = '';
+        document.getElementById('comp-text').value = '';
+
+        map.setFilter('municity', null);
+        map.setFilter('municityDOH-points', null);
+        map.setFilter('municityDOH-heatmap', null);
+        // map.setFilter('facility_cluster', ['has', 'point_count']);
+        // map.setFilter('facility_cluster_count', ['has', 'point_count']);
     };
 
     resetMapBtn.onclick = function() {
@@ -341,13 +352,5 @@ $(document).ready(function() {
         }
     }
 
-    // clearBtn.onclick = function() {
-    //     document.getElementById('num-text').value = '';
-    //     document.getElementById('comp-text').value = '';
-    //
-    //     map.setFilter('facility', ['!=', ['get', 'cluster'], true],);
-    //     map.setFilter('facility_outer', ['!=', ['get', 'cluster'], true],);
-    //     // map.setFilter('facility_cluster', ['has', 'point_count']);
-    //     // map.setFilter('facility_cluster_count', ['has', 'point_count']);
-    // };
+
 });
