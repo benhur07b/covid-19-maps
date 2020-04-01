@@ -168,6 +168,11 @@ $(document).ready(function() {
 
         map.on('click', 'facility', function(e) {
             // showPopup(e.features[0])
+            var popUps = document.getElementsByClassName('mapboxgl-popup');
+            /** Check if there is already a popup on the map and if so, remove it */
+            if (popUps[0]) popUps[0].remove();
+
+
             var coordinates = e.features[0].geometry.coordinates.slice();
             var facility = e.features[0].properties.facility.toUpperCase();
             var covid_cases = e.features[0].properties.count_;

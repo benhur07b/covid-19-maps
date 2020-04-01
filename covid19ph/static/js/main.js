@@ -42,19 +42,26 @@ $(document).ready(function() {
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
     map.on('load', () => {
-        map.addSource('municitiesDOH', {
+        map.addSource('municitiesDOH_point', {
             'type': 'geojson',
             // 'data': 'https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/conf_fac_tracking/FeatureServer/0/query?where=count_%3E0&outFields=*&f=pgeojson',
             'data': 'https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/municitycent/FeatureServer/0/query?where=count_>0&outFields=*&f=pgeojson',
             // 'data': facilities,
         });
 
+        map.addSource('municities', {
+            'type': 'geojson',
+            // 'data': 'https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/conf_fac_tracking/FeatureServer/0/query?where=count_%3E0&outFields=*&f=pgeojson',
+            'data': 'data/municity_doh.geojson',
+            // 'data': facilities,
+        });
+
         map.addLayer({
             'id': 'municityDOH',
             'type': 'circle',
-            'source': 'municitiesDOH',
+            'source': 'municitiesDOH_point',
             'layout': {
-                'visibility': 'visible'
+                'visibility': 'none'
             },
             'paint': {
                 'circle-color': [
@@ -71,6 +78,61 @@ $(document).ready(function() {
             }
         });
 
+        map.addLayer({
+            'id': 'municity',
+            'type': 'fill',
+            'source': 'municities',
+            'paint': {
+                'fill-color': [
+                    'step',
+                    ['get', 'count_'],
+                    num_colorScale('low'),
+                    10, num_colorScale('moderate'),
+                    50, num_colorScale('high'),
+                    100, num_colorScale('very high'),
+                    99999999999, num_colorScale('critical'),
+                ],
+                'fill-outline-color': [
+                    'step',
+                    ['get', 'count_'],
+                    num_colorScale('low'),
+                    10, num_colorScale('moderate'),
+                    50, num_colorScale('high'),
+                    100, num_colorScale('very high'),
+                    99999999999, num_colorScale('critical'),
+                ],
+            }
+        });
+
+        map.on('click', 'municity', function(e) {
+            // showPopup(e.features[0])
+            var popUps = document.getElementsByClassName('mapboxgl-popup');
+            /** Check if there is already a popup on the map and if so, remove it */
+            if (popUps[0]) popUps[0].remove();
+
+            var coordinates = e.lngLat;
+            var municity = e.features[0].properties.ADM3_EN;
+            var province = e.features[0].properties.ADM2_EN;
+            var region = e.features[0].properties.ADM1_EN.toUpperCase();
+            var covid_cases = e.features[0].properties.count_;
+
+            var popup = `<h6 class='pt-2 pb-1' style='border-bottom: 0.5px solid #00853e; color: #00853e'>${municity}, ${province}<br>${region}</h6><p>Confirmed Cases: ${covid_cases}</p>`
+
+            new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(popup)
+            .addTo(map);
+        });
+
+        // Change the cursor to a pointer when the mouse is over the places layer.
+        map.on('mouseenter', 'municity', function() {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', 'municity', function() {
+            map.getCanvas().style.cursor = '';
+        });
 
     buildLGUList();
 
@@ -83,10 +145,12 @@ $(document).ready(function() {
         /** Check if there is already a popup on the map and if so, remove it */
         if (popUps[0]) popUps[0].remove();
         var coordinates = feature.geometry.coordinates.slice();
-        var municity = feature.properties.ADM3_EN.toUpperCase();
+        var municity = feature.properties.ADM3_EN;
+        var province = feature.properties.ADM2_EN;
+        var region = feature.properties.ADM1_EN.toUpperCase();
         var covid_cases = feature.properties.count_;
 
-        var popup = `<h6 class='pt-2 pb-1' style='border-bottom: 0.5px solid #00853e; color: #00853e'>${municity}</h6><p>Confirmed Cases: ${covid_cases}</p>`
+        var popup = `<h6 class='pt-2 pb-1' style='border-bottom: 0.5px solid #00853e; color: #00853e'>${municity}, ${province}<br>${region}</h6><p>Confirmed Cases: ${covid_cases}</p>`
 
         new mapboxgl.Popup()
         .setLngLat(coordinates)
