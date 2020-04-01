@@ -1,0 +1,125 @@
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <title>Cities & Municipalities with Confirmed #COVID19PH Cases</title>
+
+    <meta property='og:description' content='Facilities with confirmed #COVID19PH cases. Gets data directly from the DOH ncovtracker.'>
+    <meta property='og:image' content='static/img/main.webp'/>
+
+    <meta name='twitter:description' content='Facilities with confirmed #COVID19PH cases. Gets data directly from the DOH ncovtracker.'>
+    <meta name='twitter:image' content='static/img/main.webp'/>
+
+    <link rel='shortcut icon' href='https://bnhr.xyz/assets/img/logos/BNHR-avatar-rd-2.png'>
+
+    <!-- Bootstrap CSS-->
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous'>
+
+    <!-- jQuery -->
+    <!-- <script src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n' crossorigin='anonymous'></script> -->
+    <script src='https://code.jquery.com/jquery-3.4.1.min.js' integrity='sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=' crossorigin='anonymous'></script>
+
+    <!-- Popper.js -->
+    <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js' integrity='sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo' crossorigin='anonymous'></script>
+
+    <!-- Bootstrap JS -->
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js' integrity='sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6' crossorigin='anonymous'></script>
+
+    <!-- Mapbox -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
+
+    <!-- GeoCoder -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css' type='text/css' />
+    <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+    <script src='https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js'></script>
+
+    <!-- Directions -->
+    <!-- <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' type='text/css' /> -->
+
+    <!-- LESS -->
+    <!-- <link rel='stylesheet' type='text/less' href='static/css/main.less' />
+    <script src='//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js' ></script> -->
+
+
+    <!-- D3 -->
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+
+    <link rel='stylesheet' href='static/css/main.css'>
+
+</head>
+
+<body>
+    <div class='col12 contain fill-light clip'>
+        <div id='map' class='col12 quiet'></div>
+        <div>
+            <a href='#info' id='show-sidebar-btn' class='icon help big pin-topleft pad0'></a>
+            <!-- <a href='#info' id='show-sidebar-btn' class='pin-topleft m-1 p-0 btn btn-sm btn-info'><span class='icon big help'></span></a> -->
+        </div>
+        <div id='info' class='col6 fill-lighten2 pin-left offcanvas-left animate'>
+            <a href='#' id='close-sidebar-btn' class='icon help big pin-topleft pad0'></a>
+            <div class='pin-topright my-1 p-0'>
+                <button id='resetMap' class='p-0 btn btn-sm btn-info' data-toggle='tooltip' data-placement='top' title='View Map Extent'><span class='icon big globe'></span></button>
+                <a href='../' id='goHome' class='p-0 btn btn-sm btn-info' data-toggle='tooltip' data-placement='top' title='Home'><span class='icon big home'></span></a>
+            </div>
+            <div id='x1' class='mt-4 pt-4'>
+                <div class='text-light bg-success p-2'>
+                    <strong>Cities and Municipalities with Confirmed #COVID19 Cases</strong>
+                    - <span id='asof' class='font-weight-light small'></span>
+                </div>
+                <div class='px-2 pt-2'>
+                    <span class='font-weight-light text-dark'>Cases with Data on Municipality/City location</span><br>
+                    <h2><span id='forVal' class='font-weight-bold'></span> / <span id='totalCount' class='font-weight-bold'></span></h2>
+                </div>
+            </div>
+            <div id='x2' class='mt-2 mb-4'>
+                <div class='text-light bg-success p-2'>
+                    <strong>Filter</strong>
+                </div>
+                <!-- <p class='text-light bg-success p-2 pb-0 mb-0'>Filter (Individual Facilities, not the Clusters)</p>
+                <br><span class='px-2'>SHOW FACILITIES WITH CASES</span><br> -->
+                <div class='px-2 mt-2 mb-4'>
+                    <span>SHOW AREAS WITH CASES</span><br>
+                    <div class='row px-2'>
+                        <input class='col-4' id='comp-text' type='text' placeholder='(e.g. <=)'>
+                        <input class='col-4' id='num-text' type='text' placeholder='(e.g. 50)'>
+                        <input class='col-4' id='filter-btn' class='button' type='submit' value='Filter'>
+                    </div>
+                    <!-- <input class='col6' id='clear-btn' class='button' type='submit' value='Clear'> -->
+                </div>
+            </div>
+            <div id='x3'>
+                <div class='text-light bg-success p-2'>
+                    <strong>List of Cities and Municipalities</strong>
+                </div>
+                <!-- <p class='text-light bg-success p-2'><strong>List of Facilities</strong></p> -->
+                <div class='listings px-2' id='listings'></div>
+            </div>
+        </div>
+    </div>
+        <script src='static/js/main.js'></script>
+    <script>
+    // $('#show-sidebar-btn').click(function(){
+    //     $('#show-sidebar-btn').toggle();
+    // });
+
+    $('#close-sidebar-btn').click(function(){
+        $('#show-sidebar-btn').show();
+    });
+
+    $.getJSON('https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/municitycent/FeatureServer/0/?f=json', function(data) {
+        document.getElementById('asof').innerHTML = `Data as of ${new Date(data.editingInfo.lastEditDate).toLocaleString()} from DOH NCOV Tracker`;
+    });
+
+    $.getJSON('https://services5.arcgis.com/mnYJ21GiFTR97WFg/ArcGIS/rest/services/PH_masterlist/FeatureServer/0/query?where=FID+IS+NOT+NULL&returnCountOnly=true&f=pgeojson', function(data) {
+        document.getElementById('totalCount').innerHTML = `${data.properties.count}`
+    });
+    </script>
+</body>
+</html>

@@ -270,6 +270,7 @@ $(document).ready(function() {
             center: currentFeature.geometry.coordinates,
             zoom: 15
         });
+        // $('#show-sidebar-btn').show();
     }
 
     function getComp(e) {

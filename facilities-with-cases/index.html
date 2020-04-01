@@ -64,15 +64,18 @@
         </div>
         <div id='info' class='col6 fill-lighten2 pin-left offcanvas-left animate'>
             <a href='#' id='close-sidebar-btn' class='icon help big pin-topleft pad0'></a>
-            <button id='resetMap' class='pin-topright my-1 p-0 btn btn-sm btn-info' data-toggle='tooltip' data-placement='top' title='View Map Extent'><span class='icon big globe'></span></button>
+            <div class='pin-topright my-1 p-0'>
+                <button id='resetMap' class='p-0 btn btn-sm btn-info' data-toggle='tooltip' data-placement='top' title='View Map Extent'><span class='icon big globe'></span></button>
+                <a href='../' id='goHome' class='p-0 btn btn-sm btn-info' data-toggle='tooltip' data-placement='top' title='Home'><span class='icon big home'></span></a>
+            </div>
             <div id='x1' class='mt-4 pt-4'>
                 <div class='text-light bg-success p-2'>
                     <strong>Facilities with Confirmed #COVID19PH Cases</strong>
                     - <span id='asof' class='font-weight-light small'></span>
                 </div>
                 <div>
-                    <p class='font-weight-normal my-auto p-2'>FAC - Number of Facilities<br>CAS - Number of Cases<br>
-                    <span class='font-weight-bold text-dark'><span id='forVal'></span> Cases For Validation (no facility location yet)</span></p>
+                    <h3 class='font-weight-normal my-auto p-2'>FAC - Number of Facilities<br>CAS - Number of Cases</h3>
+                    <h2 class='font-weight-bold text-dark px-2'><span id='forVal'></span> Cases For Validation (no facility location yet)</span></h2>
                 </div>
             </div>
             <div id='x2' class='mt-2 mb-4'>
@@ -99,13 +102,12 @@
                 <div class='listings px-2' id='listings'></div>
             </div>
         </div>
-        </div>
     </div>
         <script src='static/js/main.js'></script>
     <script>
-    $('#show-sidebar-btn').click(function(){
-        $('#show-sidebar-btn').toggle();
-    });
+    // $('#show-sidebar-btn').click(function(){
+    //     $('#show-sidebar-btn').toggle();
+    // });
 
     $('#close-sidebar-btn').click(function(){
         $('#show-sidebar-btn').show();
