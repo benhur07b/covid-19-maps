@@ -18,7 +18,8 @@ $(document).ready(function() {
       new MapboxGeocoder({
           accessToken: mapboxgl.accessToken,
           mapboxgl: mapboxgl
-      })
+      }),
+      'bottom-right'
     );
 
     // Add geolocate control to the map.
