@@ -6,10 +6,10 @@
 
     <title>Cities & Municipalities with Confirmed #COVID19PH Cases</title>
 
-    <meta property='og:description' content='Facilities with confirmed #COVID19PH cases. Gets data directly from the DOH ncovtracker.'>
+    <meta property='og:description' content='Cities & Municipalities with Confirmed #COVID19PH Cases. Gets data directly from the DOH ncovtracker.'>
     <meta property='og:image' content='static/img/main.webp'/>
 
-    <meta name='twitter:description' content='Facilities with confirmed #COVID19PH cases. Gets data directly from the DOH ncovtracker.'>
+    <meta name='twitter:description' content='Cities & Municipalities with Confirmed #COVID19PH Cases. Gets data directly from the DOH ncovtracker.'>
     <meta name='twitter:image' content='static/img/main.webp'/>
 
     <link rel='shortcut icon' href='https://bnhr.xyz/assets/img/logos/BNHR-avatar-rd-2.png'>
@@ -65,9 +65,11 @@
         <div id='info' class='col6 fill-lighten2 pin-left offcanvas-left animate'>
             <a href='#' id='close-sidebar-btn' class='icon help big pin-topleft pad0'></a>
             <div class='pin-topright my-1 p-0'>
+                <button id='pointsBtn' class='p-0 btn btn-sm btn-info' data-toggle='tooltip' data-placement='top' title='Visualize as points'><span class='icon big point'></span></button>
+                <button id='heatmapBtn' class='p-0 btn btn-sm btn-info' data-toggle='tooltip' data-placement='top' title='Visualize as heatmap'><span class='icon big raster'></span></button>
                 <button id='resetMap' class='p-0 btn btn-sm btn-info' data-toggle='tooltip' data-placement='top' title='View Map Extent'><span class='icon big globe'></span></button>
                 <a href='../' id='goHome' class='p-0 btn btn-sm btn-info' data-toggle='tooltip' data-placement='top' title='Home'><span class='icon big home'></span></a>
-            </div>
+                </div>
             <div id='x1' class='mt-4 pt-4'>
                 <div class='text-light bg-success p-2'>
                     <strong>Cities and Municipalities with Confirmed #COVID19 Cases</strong>

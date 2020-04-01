@@ -57,31 +57,12 @@ $(document).ready(function() {
         });
 
         map.addLayer({
-            'id': 'municityDOH',
-            'type': 'circle',
-            'source': 'municitiesDOH_point',
-            'layout': {
-                'visibility': 'none'
-            },
-            'paint': {
-                'circle-color': [
-                    'step',
-                    ['get', 'count_'],
-                    num_colorScale('low'),
-                    10, num_colorScale('moderate'),
-                    50, num_colorScale('high'),
-                    100, num_colorScale('very high'),
-                    99999999999, num_colorScale('critical'),
-                ],
-                'circle-radius': 6,
-                'circle-opacity': 1,
-            }
-        });
-
-        map.addLayer({
             'id': 'municity',
             'type': 'fill',
             'source': 'municities',
+            'layout': {
+                'visibility': 'none'
+            },
             'paint': {
                 'fill-color': [
                     'step',
@@ -104,6 +85,69 @@ $(document).ready(function() {
             }
         });
 
+        map.addLayer({
+            'id': 'municityDOH-heatmap',
+            'type': 'heatmap',
+            'source': 'municitiesDOH_point',
+            'layout': {
+                'visibility': 'visible',
+            },
+            'paint': {
+                'heatmap-opacity': 0.7,
+                'heatmap-weight': [
+                    'step',
+                    ['get', 'count_'],
+                    1,
+                    10, 4,
+                    20, 6,
+                    30, 8,
+                    99999999999, 10,
+                ],
+                'heatmap-color': ["interpolate",["linear"],["heatmap-density"],0,'rgba(0,0,0,0)',0.2,num_colorScale('low'),0.4,num_colorScale('moderate'),0.6,num_colorScale('high'),0.8,num_colorScale('very high'),1.0,num_colorScale('critical')]
+            }
+        });
+
+        map.addLayer({
+            'id': 'municityDOH-points',
+            'type': 'circle',
+            'source': 'municitiesDOH_point',
+            'layout': {
+                'visibility': 'none'
+            },
+            'paint': {
+                'circle-color': [
+                    'step',
+                    ['get', 'count_'],
+                    num_colorScale('low'),
+                    10, num_colorScale('moderate'),
+                    50, num_colorScale('high'),
+                    100, num_colorScale('very high'),
+                    99999999999, num_colorScale('critical'),
+                ],
+                'circle-stroke-color': [
+                    'step',
+                    ['get', 'count_'],
+                    num_colorScale('low'),
+                    10, num_colorScale('moderate'),
+                    50, num_colorScale('high'),
+                    100, num_colorScale('very high'),
+                    99999999999, num_colorScale('critical'),
+                ],
+                'circle-radius': 6,
+                // 'circle-radius': [
+                //     'step',
+                //     ['get', 'count_'],
+                //     5,
+                //     30, 10,
+                //     75, 15,
+                //     100, 20,
+                //     99999999999, 30,
+                // ],
+                'circle-opacity': 0.75,
+                'circle-stroke-opacity': 0.90,
+            }
+        });
+
         map.on('click', 'municity', function(e) {
             // showPopup(e.features[0])
             var popUps = document.getElementsByClassName('mapboxgl-popup');
@@ -122,6 +166,10 @@ $(document).ready(function() {
             .setLngLat(coordinates)
             .setHTML(popup)
             .addTo(map);
+        });
+
+        map.on('click', 'municityDOH-points', function(e) {
+            showPopup(e.features[0])
         });
 
         // Change the cursor to a pointer when the mouse is over the places layer.
@@ -222,19 +270,23 @@ $(document).ready(function() {
 
     var filterBtn = document.getElementById('filter-btn');
     var resetMapBtn = document.getElementById('resetMap');
+    var pointsBtn = document.getElementById('pointsBtn');
+    var heatmapBtn = document.getElementById('heatmapBtn');
     // var clearBtn = document.getElementById('clear-btn');
 
     filterBtn.onclick = function() {
         var num = Number(document.getElementById('num-text').value);
         var comp = getComp(document.getElementById('comp-text').value);
         if (num && comp){
-            map.setFilter('facility', ['all', [comp, 'count_', num]]);
-            map.setFilter('facility_outer', ['all', [comp, 'count_', num]]);
+            map.setFilter('municity', ['all', [comp, 'count_', num]]);
+            map.setFilter('municityDOH-points', ['all', [comp, 'count_', num]]);
+            map.setFilter('municityDOH-heatmap', ['all', [comp, 'count_', num]]);
             // map.setFilter('facility_cluster', ['all', [comp, ['get', 'point_count'], num], ['has', 'point_count']]);
             // map.setFilter('facility_cluster_count', ['all', [comp, ['get', 'point_count'], num], ['has', 'point_count']]);
         } else {
-            map.setFilter('facility', ['!=', ['get', 'cluster'], true],);
-            map.setFilter('facility_outer', ['!=', ['get', 'cluster'], true],);
+            map.setFilter('municity', null);
+            map.setFilter('municityDOH-points', null);
+            map.setFilter('municityDOH-heatmap', null);
             // map.setFilter('facility_cluster', ['has', 'point_count']);
             // map.setFilter('facility_cluster_count', ['has', 'point_count']);
         }
@@ -245,6 +297,46 @@ $(document).ready(function() {
             center: [121.8733, 13.5221],
             zoom: 5,
         });
+    }
+
+    pointsBtn.onclick = function() {
+        var pointsVisibility = map.getLayoutProperty('municityDOH-points', 'visibility')
+        var heatmapVisibility = map.getLayoutProperty('municityDOH-heatmap', 'visibility')
+        if (pointsVisibility === 'visible') {
+            map.setLayoutProperty('municityDOH-points', 'visibility', 'none');
+            if (heatmapVisibility === 'none') {
+                map.setLayoutProperty('municityDOH-heatmap', 'visibility', 'visible');
+            }
+            $('#pointsBtn').removeClass('bg-success');
+            $('#heatmapBtn').addClass('bg-success');
+        } else {
+            $('#pointsBtn').addClass('bg-success');
+            $('#heatmapBtn').removeClass('bg-success');
+            map.setLayoutProperty('municityDOH-points', 'visibility', 'visible');
+            if (heatmapVisibility === 'visible') {
+                map.setLayoutProperty('municityDOH-heatmap', 'visibility', 'none');
+            }
+        }
+    }
+
+    heatmapBtn.onclick = function() {
+        var pointsVisibility = map.getLayoutProperty('municityDOH-points', 'visibility')
+        var heatmapVisibility = map.getLayoutProperty('municityDOH-heatmap', 'visibility')
+        if (pointsVisibility === 'visible') {
+            map.setLayoutProperty('municityDOH-points', 'visibility', 'none');
+            if (heatmapVisibility === 'none') {
+                map.setLayoutProperty('municityDOH-heatmap', 'visibility', 'visible');
+            }
+            $('#pointsBtn').removeClass('bg-success');
+            $('#heatmapBtn').addClass('bg-success');
+        } else {
+            $('#pointsBtn').addClass('bg-success');
+            $('#heatmapBtn').removeClass('bg-success');
+            map.setLayoutProperty('municityDOH-points', 'visibility', 'visible');
+            if (heatmapVisibility === 'visible') {
+                map.setLayoutProperty('municityDOH-heatmap', 'visibility', 'none');
+            }
+        }
     }
 
     // clearBtn.onclick = function() {
